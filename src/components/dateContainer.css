@@ -1,0 +1,20 @@
+.left,
+.right {
+  width: 1rem;
+  height: 1rem;
+  transition: 0.5s;
+  cursor: pointer;
+
+  float: left;
+
+  box-shadow: -3px 3px 0 #03b1fc;
+  margin-top: 2rem;
+}
+
+.left {
+  transform: rotate(45deg);
+}
+
+.right {
+  transform: rotate(-135deg);
+}

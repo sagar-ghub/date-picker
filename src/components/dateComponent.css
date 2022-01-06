@@ -1,0 +1,45 @@
+* {
+  font-size: 15px;
+}
+@media only screen and (max-width: 600px) {
+  * {
+    font-size: 15px;
+  }
+}
+.dateComponent {
+  display: flex;
+  flex-direction: column;
+  height: 3.3rem;
+  width: 3rem;
+  text-align: center;
+  padding: 14px 10px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: grey;
+}
+
+.active {
+  background-color: #03b1fc;
+  color: white;
+}
+.active:after {
+  border-bottom: 1 solid white;
+}
+.square-cut:after {
+  content: "";
+  display: block;
+  line-height: 0%;
+  font-size: 10px;
+  border: 1px solid transparent;
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-bottom: 15px solid white;
+}
+.square-cut {
+  box-sizing: border-box;
+  width: 50px; /* as arrow is 40px x 40px, this gives 10px under the tip*/
+  height: 0px;
+  padding: 0.8rem 0.8rem 0px 0.5rem; /* 5px on either side offat side of the arrow */
+
+  font-size: 0px;
+}
