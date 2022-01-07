@@ -3,100 +3,82 @@ import DateComponent from "./DateComponent";
 import moment from "moment";
 import "./dateContainer.css";
 export default function DateContainer() {
-  const currentDate = moment();
-  const [dateValue, setDateValue] = useState(currentDate.format("D ddd"));
+  const [currentDate, setCurrentDate] = useState(moment());
+  const [dateValue, setDateValue] = useState(currentDate);
 
   const [dateStart, setDateStart] = useState(
     currentDate.clone().startOf("week")
   );
-  const [dateEnd, setDateEnd] = useState(currentDate.clone().endOf("week"));
-  const month = currentDate.format("MMM YYYY");
 
   const [days, setDays] = useState([]);
-
   const getDays = (startDate) => {
     let temp = [];
-
     for (let i = 0; i <= 6; i++) {
-      temp.push(moment(startDate).add(i, "days").format("D ddd"));
+      temp.push(moment(startDate).add(i, "days"));
     }
     setDays([...temp]);
+    console.log(dateValue, temp);
   };
   useEffect(() => {
-    // let temp = [];
-
-    // for (let i = 0; i <= 6; i++) {
-    //   temp.push(moment(dateStart).add(i, "days").format("D ddd"));
-    // }
-    // setDays([...temp]);
     getDays(dateStart);
   }, []);
 
+  useEffect(() => {
+    let start = dateValue.clone().startOf("week");
+    getDays(start);
+    // console.log(moment(dateValue, "D ddd").isValid());
+    // let start = moment(dateValue, "D ddd");
+    // console.log(start.toDate());
+    //console.log(start.clone().startOf("week"));
+    // getDays(dateValue.startOf("week"));
+  }, [dateValue]);
+
   const handleArrow = (arrow) => {
     if (arrow === "left") {
-      // setDateValue(moment(dateValue).subtract(1, "days").format("D ddd"));
-      //   let temp = [];
-
-      //   for (let i = 0; i <= 6; i++) {
-      //     temp.push(
-      //       moment(moment(dateStart).subtract(1, "days"))
-      //         .add(i, "days")
-      //         .format("D ddd")
-      //     );
-      //   }
       getDays(moment(dateStart).subtract(1, "days"));
       setDateStart(moment(dateStart).subtract(1, "days"));
-      //   console.log(temp);
-      //   setDays([...temp]);
     } else {
-      //   let temp = [];
-
-      //   for (let i = 0; i <= 6; i++) {
-      //     temp.push(
-      //       moment(moment(dateStart).add(1, "days"))
-      //         .add(i, "days")
-      //         .format("D ddd")
-      //     );
-      //   }
       getDays(moment(dateStart).add(1, "days"));
       setDateStart(moment(dateStart).add(1, "days"));
-      //   console.log(temp);
-      //   setDays([...temp]);
     }
   };
+  const handleDateOpen = () => {
+    const datePicker = document.getElementById("datePicker");
+
+    console.log(datePicker);
+  };
   return (
-    <div>
-      <div style={{ display: "flex" }}>
-        {month}
-        {/* <div class="datepicker-toggle">
-          <span class="datepicker-toggle-button"></span>
+    <div style={{ width: "510px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <br />
+        {dateValue.format("MMMM YYYY")}
+        <div class="datepicker-toggle">
           <input
             type="date"
-            id="start"
+            id="datePicker"
             name="trip-start"
-            value="2018-07-22"
-            min="2018-01-01"
-            max="2018-12-31"
+            value={currentDate.format("YYYY-MM-DD")}
+            onChange={(e) => {
+              setDateValue(moment(e.target.value));
+            }}
           />
-        </div> */}
-        <label for="datepicker">
-          Pick a Date
-          <input type="text" id="datepicker" autocomplete="off" />
-        </label>
+          <span onClick={handleDateOpen}> More Dates</span>
+        </div>
       </div>
       <div style={{ display: "flex" }}>
         <div class="left" onClick={() => handleArrow("left")}></div>
         {days.map((day, index) => (
           <DateComponent
-            active={dateValue === day ? true : false}
+            active={
+              dateValue.format("MM-DD-YYYY") === day.format("MM-DD-YYYY")
+                ? true
+                : false
+            }
             date={day}
             setDateValue={setDateValue}
           />
         ))}
         <div class="right" onClick={() => handleArrow("right")}></div>
-        {/* <DateComponent active={false} date={date} />
-        <DateComponent active={true} date={date} />
-        <DateComponent active={false} date={date} /> */}
       </div>
     </div>
   );

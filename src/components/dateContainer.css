@@ -18,3 +18,18 @@
 .right {
   transform: rotate(-135deg);
 }
+
+::-webkit-datetime-edit {
+  display: none;
+}
+
+input {
+  border: none;
+  margin-top: 10px;
+}
+input:focus {
+  border: none;
+}
+::-webkit-calendar-picker-indicator {
+  content: "sadasd";
+}
